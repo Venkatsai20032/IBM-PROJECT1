@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "author": "Rohit Kanna",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": -9.6, "left": 62.44, "attrs": {} },
+    { "type": "wokwi-hc-sr04", "id": "ultrasonic1", "top": -17.7, "left": -196.1, "attrs": {} },
+    { "type": "wokwi-potentiometer", "id": "pot1", "top": -183.7, "left": -19.4, "attrs": {} },
+    { "type": "wokwi-vcc", "id": "vcc1", "top": 231.16, "left": -144, "attrs": {} },
+    { "type": "wokwi-gnd", "id": "gnd1", "top": 220.8, "left": -77.4, "attrs": {} }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "vcc1:VCC", "ultrasonic1:VCC", "red", [ "v0" ] ],
+    [ "gnd1:GND", "ultrasonic1:GND", "black", [ "v0" ] ],
+    [ "ultrasonic1:TRIG", "esp:26", "green", [ "v0" ] ],
+    [ "ultrasonic1:ECHO", "esp:25", "green", [ "v0" ] ],
+    [ "pot1:VCC", "esp:3V3", "red", [ "v115.2", "h-48.8" ] ],
+    [ "pot1:GND", "esp:GND.2", "black", [ "v0" ] ],
+    [ "pot1:SIG", "esp:34", "green", [ "v0" ] ]
+  ],
+  "dependencies": {}
+}

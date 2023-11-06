@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Water Management</title>
+    <style>
+        body {
+            background-image: url(Waterimage.jpg);
+            background-repeat: no-repeat;
+            background-size: 2000px;
+        }
+        button {
+            height: 100px;
+            width: 200px;
+            color: white;
+            background-color: black;
+            font-size: 22px;
+            border-radius: 10px;
+            position: relative;
+            left: 700px;
+            top: 200px;
+        }
+        h1 {
+            position: relative;
+            left: 600px;
+            text-decoration: none;
+        }
+        button:hover {
+            background-color: crimson;
+            color: black;
+        }
+        p {
+            position: relative;
+            left:715px;
+            top: 500px;
+            font-size: 30px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>SMART WATER MANAGEMENT</h1>
+    <div>
+        <button onclick="fetchWaterData()">Water Consumption Data</button>
+        <button onclick="fetchContaminationData()">Contamination Level Data</button>
+    </div>
+    <p id="result">Data Shows Here</p>
+
+    <script>
+        var channelID = '2327527';
+        var readAPIKey = '5BTY7XHMU1SRMV4H';
+
+        function fetchWaterData() {
+            fetch(`https://api.thingspeak.com/channels/${channelID}/fields/1.json?api_key=${readAPIKey}&results=1`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.feeds.length > 0) {
+                        var waterLevel = data.feeds[0].field1;
+                        document.getElementById('result').innerText = `Water Level: ${waterLevel} cm`;
+                    }
+                })
+                .catch(error => console.error('Error fetching water data:', error));
+        }
+
+        function fetchContaminationData() {
+            fetch(`https://api.thingspeak.com/channels/${channelID}/fields/2.json?api_key=${readAPIKey}&results=1`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.feeds.length > 0) {
+                        var contaminationLevel = data.feeds[0].field2;
+                        var contaminationStatus = contaminationLevel < 7.0 ? "Clean" : "Contaminated";
+                        document.getElementById('result').innerText = `Contamination Level: ${contaminationLevel}, Status: ${contaminationStatus}`;
+                    }
+                })
+                .catch(error => console.error('Error fetching contamination data:', error));
+        }
+    </script>
+</body>
+</html>
